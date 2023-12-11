@@ -100,7 +100,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         }
         
         $resource = $this->getActiveResource();
-        $oldDim = array( 'x' => imagesx( $resource ), 'y' => imagesy( $resource ) );
+        $oldDim = ['x' => imagesx( $resource ), 'y' => imagesy( $resource )];
 
         $widthRatio = $width / $oldDim['x'];
         $heighRatio = $height / $oldDim['y'];
@@ -156,34 +156,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         }
 
         $resource = $this->getActiveResource();
-        $oldDim = array(
-            'x' => imagesx( $resource ),
-            'y' => imagesy( $resource ),
-        );
-        switch ( $direction )
-        {
-            case self::SCALE_BOTH:
-                $newDim = array(
-                    'x' => $width,
-                    'y' => $width / $oldDim['x'] * $oldDim['y']
-                );
-                break;
-            case self::SCALE_UP:
-                $newDim = array(
-                    'x' => max( $width, $oldDim['x'] ),
-                    'y' => $width > $oldDim['x'] ? round( $width / $oldDim['x'] * $oldDim['y'] ) : $oldDim['y'],
-                );
-                break;
-            case self::SCALE_DOWN:
-                $newDim = array(
-                    'x' => min( $width, $oldDim['x'] ),
-                    'y' => $width < $oldDim['x'] ? round( $width / $oldDim['x'] * $oldDim['y'] ) : $oldDim['y'],
-                );
-                break;
-            default:
-                throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
-                break;
-        }
+        $oldDim = ['x' => imagesx( $resource ), 'y' => imagesy( $resource )];
+        $newDim = match ($direction) {
+            self::SCALE_BOTH => ['x' => $width, 'y' => $width / $oldDim['x'] * $oldDim['y']],
+            self::SCALE_UP => ['x' => max( $width, $oldDim['x'] ), 'y' => $width > $oldDim['x'] ? round( $width / $oldDim['x'] * $oldDim['y'] ) : $oldDim['y']],
+            self::SCALE_DOWN => ['x' => min( $width, $oldDim['x'] ), 'y' => $width < $oldDim['x'] ? round( $width / $oldDim['x'] * $oldDim['y'] ) : $oldDim['y']],
+            default => throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' ),
+        };
         $this->performScale( $newDim["x"], $newDim["y"] );
     }
 
@@ -219,34 +198,13 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         }
 
         $resource = $this->getActiveResource();
-        $oldDim = array(
-            'x' => imagesx( $resource ),
-            'y' => imagesy( $resource ),
-        );
-        switch ( $direction )
-        {
-            case self::SCALE_BOTH:
-                $newDim = array(
-                    'x' => $height / $oldDim['y'] * $oldDim['x'],
-                    'y' => $height,
-                );
-                break;
-            case self::SCALE_UP:
-                $newDim = array(
-                    'x' => $height > $oldDim['y'] ? round( $height / $oldDim['y'] * $oldDim['x'] ) : $oldDim['x'],
-                    'y' => max( $height, $oldDim['y'] ),
-                );
-                break;
-            case self::SCALE_DOWN:
-                $newDim = array(
-                    'x' => $height < $oldDim['y'] ? round( $height / $oldDim['y'] * $oldDim['x'] ) : $oldDim['x'],
-                    'y' => min( $height, $oldDim['y'] ),
-                );
-                break;
-            default:
-                throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
-                break;
-        }
+        $oldDim = ['x' => imagesx( $resource ), 'y' => imagesy( $resource )];
+        $newDim = match ($direction) {
+            self::SCALE_BOTH => ['x' => $height / $oldDim['y'] * $oldDim['x'], 'y' => $height],
+            self::SCALE_UP => ['x' => $height > $oldDim['y'] ? round( $height / $oldDim['y'] * $oldDim['x'] ) : $oldDim['x'], 'y' => max( $height, $oldDim['y'] )],
+            self::SCALE_DOWN => ['x' => $height < $oldDim['y'] ? round( $height / $oldDim['y'] * $oldDim['x'] ) : $oldDim['x'], 'y' => min( $height, $oldDim['y'] )],
+            default => throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' ),
+        };
         $this->performScale( $newDim["x"], $newDim["y"] );
     }
 
@@ -422,19 +380,16 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         switch ( $space )
         {
             case self::COLORSPACE_GREY:
-                $this->luminanceColorScale( array( 1.0, 1.0, 1.0 ) );
+                $this->luminanceColorScale( [1.0, 1.0, 1.0] );
                 break;
             case self::COLORSPACE_MONOCHROME:
                 $this->thresholdColorScale(
-                    array(
-                        127 => array( 0, 0, 0 ),
-                        255 => array( 255, 255, 255 ),
-                    )
+                    [127 => [0, 0, 0], 255 => [255, 255, 255]]
                 );
                 break;
             return;
             case self::COLORSPACE_SEPIA:
-                $this->luminanceColorScale( array( 1.0, 0.89, 0.74 ) );
+                $this->luminanceColorScale( [1.0, 0.89, 0.74] );
                 break;
             default:
                 throw new ezcBaseValueException( 'space', $space, 'self::COLORSPACE_GREY, self::COLORSPACE_SEPIA, self::COLORSPACE_MONOCHROME' );
@@ -648,7 +603,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
      *
      * @return void
      */
-    public function filledThumbnail( $width, $height, $color = array() )
+    public function filledThumbnail( $width, $height, $color = [] )
     {
         $i = 0;
         foreach ( $color as $id => $colorVal )
@@ -708,11 +663,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
     private function getLuminanceAt( $resource, $x, $y )
     {
             $currentColor = imagecolorat( $resource, $x, $y );
-            $rgbValues = array(
-                'r' => ( $currentColor >> 16 ) & 0xff,
-                'g' => ( $currentColor >> 8 ) & 0xff,
-                'b' => $currentColor & 0xff,
-            );
+            $rgbValues = ['r' => ( $currentColor >> 16 ) & 0xff, 'g' => ( $currentColor >> 8 ) & 0xff, 'b' => $currentColor & 0xff];
             return $rgbValues['r'] * 0.299 + $rgbValues['g'] * 0.587 + $rgbValues['b'] * 0.114;
     }
 
@@ -743,7 +694,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
     protected function thresholdColorScale( $thresholds )
     {
         $resource = $this->getActiveResource();
-        $dimensions = array( 'x' => imagesx( $resource ), 'y' => imagesy( $resource ) );
+        $dimensions = ['x' => imagesx( $resource ), 'y' => imagesy( $resource )];
 
         // Check for GIFs and convert them to work properly here.
         if ( !imageistruecolor( $resource ) )
@@ -755,7 +706,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
         {
             $thresholds[$threshold] = array_merge(
                 $colors,
-                array( 'color' => $this->getColor( $resource, $colors[0], $colors[1], $colors[2] ) )
+                ['color' => $this->getColor( $resource, $colors[0], $colors[1], $colors[2] )]
             );
         }
         // Default
@@ -765,7 +716,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
             reset( $thresholds );
         }
 
-        $colorCache = array();
+        $colorCache = [];
 
         for ( $x = 0; $x < $dimensions['x']; $x++ )
         {
@@ -803,7 +754,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
     protected function luminanceColorScale( $scale )
     {
         $resource = $this->getActiveResource();
-        $dimensions = array( 'x' => imagesx( $resource ), 'y' => imagesy( $resource ) );
+        $dimensions = ['x' => imagesx( $resource ), 'y' => imagesy( $resource )];
 
         // Check for GIFs and convert them to work properly here.
         if ( !imageistruecolor( $resource ) )
@@ -816,11 +767,7 @@ class ezcImageGdHandler extends ezcImageGdBaseHandler
             for ( $y = 0; $y < $dimensions['y']; $y++ )
             {
                 $luminance = $this->getLuminanceAt( $resource, $x, $y );
-                $newRgbValues = array(
-                    'r' => $luminance * $scale[0],
-                    'g' => $luminance * $scale[1],
-                    'b' => $luminance * $scale[2],
-                );
+                $newRgbValues = ['r' => $luminance * $scale[0], 'g' => $luminance * $scale[1], 'b' => $luminance * $scale[2]];
                 $color = $this->getColor( $resource, $newRgbValues['r'], $newRgbValues['g'], $newRgbValues['b'] );
                 imagesetpixel( $resource, $x, $y, $color );
             }

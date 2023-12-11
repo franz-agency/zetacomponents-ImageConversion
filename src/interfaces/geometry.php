@@ -42,19 +42,19 @@ interface ezcImageGeometryFilters
      * Scale up and down, as fits
      * @var int
      */
-    const SCALE_BOTH = 1;
+    public const SCALE_BOTH = 1;
 
     /**
      * Scale down only
      * @var int
      */
-    const SCALE_DOWN = 2;
+    public const SCALE_DOWN = 2;
 
     /**
      * Scale up only
      * @var int
      */
-    const SCALE_UP = 3;
+    public const SCALE_UP = 3;
 
     /**
      * Scale filter.

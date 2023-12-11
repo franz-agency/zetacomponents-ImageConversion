@@ -43,21 +43,21 @@ interface ezcImageColorspaceFilters
      * 
      * @var int
      */
-    const COLORSPACE_GREY = 1;
+    public const COLORSPACE_GREY = 1;
 
     /**
      * Sepia color space.
      * 
      * @var int
      */
-    const COLORSPACE_SEPIA = 2;
+    public const COLORSPACE_SEPIA = 2;
 
     /**
      * Monochrome color space.
      * 
      * @var int
      */
-    const COLORSPACE_MONOCHROME = 3;
+    public const COLORSPACE_MONOCHROME = 3;
 
     /**
      * Colorspace filter.

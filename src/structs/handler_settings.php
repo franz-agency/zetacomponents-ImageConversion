@@ -39,26 +39,6 @@
 class ezcImageHandlerSettings extends ezcBaseStruct
 {
     /**
-     * The reference name for the handler.
-     * This name can be used when referencing the handler in certain operations
-     * in the {@link ezcImageConverter converter} class.
-     *
-     * e.g. 'GD' and 'ImageMagick'.
-     *
-     * @var string
-     */
-    public $referenceName;
-
-    /**
-     * Name of the class to instantiate as image handler.
-     *
-     * Note: This class must be a subclass of the {@link ezcImageHandler} class.
-     *
-     * @var string
-     */
-    public $className;
-
-    /**
      * Associative array of misc options for the handler.
      * These options will be read by the handler class and varies from handler
      * to handler. Consult the handler class for the available settings.
@@ -73,7 +53,7 @@ class ezcImageHandlerSettings extends ezcBaseStruct
      *
      * @var array
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * Initialize settings to be used by image handler.
@@ -93,10 +73,22 @@ class ezcImageHandlerSettings extends ezcBaseStruct
      * @param array  $options
      *        Associative array of settings for the handler.
      */
-    public function __construct( $referenceName, $className, array $options = array() )
+    public function __construct( /**
+     * The reference name for the handler.
+     * This name can be used when referencing the handler in certain operations
+     * in the {@link ezcImageConverter converter} class.
+     *
+     * e.g. 'GD' and 'ImageMagick'.
+     *
+     */
+    public $referenceName, /**
+     * Name of the class to instantiate as image handler.
+     *
+     * Note: This class must be a subclass of the {@link ezcImageHandler} class.
+     *
+     */
+    public $className, array $options = [] )
     {
-        $this->referenceName = $referenceName;
-        $this->className     = $className;
         $this->options       = $options;
     }
 }

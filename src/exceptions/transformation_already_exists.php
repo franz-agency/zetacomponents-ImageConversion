@@ -38,9 +38,8 @@ class ezcImageTransformationAlreadyExistsException extends ezcImageException
      * @param string $name Name of the collision transformation.
      * @return void
      */
-    function __construct( $name )
+    function __construct($name)
     {
-        parent::__construct( "Transformation '{$name}' already exists." );
     }
 }
 

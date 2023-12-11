@@ -55,17 +55,6 @@
 class ezcImageFilter extends ezcBaseStruct
 {
     /**
-     * Name of filter operation to use.
-     *
-     * @see ezcImageEffectFilters
-     * @see ezcImageGeometryFilters
-     * @see ezcImageColorspaceFilters
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * Associative array of options for the filter operation.
      * The array key is the option name and the array entry is the value for
      * the option.
@@ -88,9 +77,16 @@ class ezcImageFilter extends ezcBaseStruct
      * @param array $name    Name of filter operation.
      * @param array $options Associative array of options for filter operation.
      */
-    public function __construct( $name, array $options = array() )
+    public function __construct( /**
+     * Name of filter operation to use.
+     *
+     * @see ezcImageEffectFilters
+     * @see ezcImageGeometryFilters
+     * @see ezcImageColorspaceFilters
+     *
+     */
+    public $name, array $options = [] )
     {
-        $this->name    = $name;
         $this->options = $options;
     }
 }

@@ -46,7 +46,6 @@ class ezcImageInvalidReferenceException extends ezcImageException
         {
             $reasonPart = " $reason";
         }
-        parent::__construct( "No valid reference found for action.{$reasonPart}" );
     }
 }
 

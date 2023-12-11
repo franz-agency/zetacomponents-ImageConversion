@@ -390,14 +390,7 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
     public function noise( $value )
     {
         $value = ucfirst( strtolower( $value ) );
-        $possibleValues = array(
-           'Uniform',
-           'Gaussian',
-           'Multiplicative',
-           'Impulse',
-           'Laplacian',
-           'Poisson',
-        );
+        $possibleValues = ['Uniform', 'Gaussian', 'Multiplicative', 'Impulse', 'Laplacian', 'Poisson'];
         if ( !in_array( $value, $possibleValues ) )
         {
             throw new ezcBaseValueException( 'value', $value, 'Uniform, Gaussian, Multiplicative, Impulse, Laplacian, Poisson' );
@@ -686,7 +679,7 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
      * @param array $color Fill color.
      * @return void
      */
-    public function filledThumbnail( $width, $height, $color = array() )
+    public function filledThumbnail( $width, $height, $color = [] )
     {
         if ( !is_int( $width )  || $width < 1 )
         {
@@ -763,21 +756,12 @@ class ezcImageImagemagickHandler extends ezcImageImagemagickBaseHandler
     protected function getDirectionModifier( $direction )
     {
         $dirMod = '';
-        switch ( $direction )
-        {
-            case self::SCALE_DOWN:
-                $dirMod = '>';
-                break;
-            case self::SCALE_UP:
-                $dirMod = '<';
-                break;
-            case self::SCALE_BOTH:
-                $dirMod = '';
-                break;
-            default:
-                throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' );
-                break;
-        }
+        $dirMod = match ($direction) {
+            self::SCALE_DOWN => '>',
+            self::SCALE_UP => '<',
+            self::SCALE_BOTH => '',
+            default => throw new ezcBaseValueException( 'direction', $direction, 'self::SCALE_BOTH, self::SCALE_UP, self::SCALE_DOWN' ),
+        };
         return $dirMod;
     }
 }

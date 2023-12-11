@@ -64,7 +64,6 @@ class ezcImageTransformationException extends ezcImageException
     {
         $this->parent = $e;
         $message = $e->getMessage();
-        parent::__construct( "Transformation failed. '{$message}'." );
     }
 
 }

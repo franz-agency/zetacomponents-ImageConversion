@@ -54,11 +54,7 @@ class ezcImageSaveOptions extends ezcBaseOptions
      * 
      * @var array(string=>mixed)
      */
-    protected $properties = array(
-        "compression"                  => null,
-        "quality"                      => null,
-        "transparencyReplacementColor" => null,
-    );
+    protected $properties = ["compression"                  => null, "quality"                      => null, "transparencyReplacementColor" => null];
 
     /**
      * Property set access.

@@ -201,14 +201,14 @@ class ezcImageConverter
      *
      * @var array(ezcImageHandler)
      */
-    protected $handlers = array();
+    protected $handlers = [];
 
     /**
      * Stores transformation registered with this converter.
      *
      * @var array
      */
-    protected $transformations = array();
+    protected $transformations = [];
 
     /**
      * Initialize converter with settings object.
@@ -396,11 +396,7 @@ class ezcImageConverter
         {
             throw new ezcImageMimeTypeUnsupportedException( $mimeIn, 'input' );
         }
-        if ( isset( $this->settings->conversions[$mimeIn] ) )
-        {
-            return $this->settings->conversions[$mimeIn];
-        }
-        return $mimeIn;
+        return $this->settings->conversions[$mimeIn] ?? $mimeIn;
     }
 
     /**
@@ -438,7 +434,7 @@ class ezcImageConverter
      */
     public function getFilterNames()
     {
-        $filters = array();
+        $filters = [];
         foreach ( $this->handlers as $handler )
         {
             $filters = array_merge( $filters, $handler->getFilterNames() );

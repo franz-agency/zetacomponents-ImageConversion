@@ -43,7 +43,8 @@
     "license": "Apache-2.0",
     "require": {
         "zetacomponents/base": "~1.8",
-        "zetacomponents/image-analysis": "~1.1"
+        "zetacomponents/image-analysis": "~1.1",
+        "php": "^8.2"
     },
     "require-dev": {
         "zetacomponents/unit-test": "@dev"

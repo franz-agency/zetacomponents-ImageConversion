@@ -56,21 +56,21 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      * 
      * @var array(string=>string)
      */
-    private $tagMap = array();
+    private $tagMap = [];
 
     /**
      * Filter options per reference.
      * 
      * @var array(string=>array)
      */
-    private $filterOptions = array();
+    private array $filterOptions = [];
 
     /**
      * Composite image setting per reference.
      * 
      * @var array(string=>bool)
      */
-    private $compositeImages = array();
+    private array $compositeImages = [];
 
     /**
      * Create a new image handler.
@@ -195,23 +195,19 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
                 ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
                 escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
                 implode( ' ', $this->compositeImages[$image] ) . ' ' .
-                escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+                escapeshellarg( (string) ($this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' )) );
         }
         else
         {
             $command = $this->binary . ' ' .
                 escapeshellarg( $this->getReferenceData( $image, 'resource' ) ) . ' ' .
                 ( isset( $this->filterOptions[$image] ) ? implode( ' ', $this->filterOptions[$image] ) : '' ) . ' ' .
-                escapeshellarg( $this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' ) );
+                escapeshellarg( (string) ($this->tagMap[$this->getReferenceData( $image, 'mime' )] . ':' . $this->getReferenceData( $image, 'resource' )) );
         }
 
         
         // Prepare to run ImageMagick command
-        $descriptors = array( 
-            array( 'pipe', 'r' ),
-            array( 'pipe', 'w' ),
-            array( 'pipe', 'w' ),
-        );
+        $descriptors = [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']];
         
         // Open ImageMagick process
         $imageProcess = proc_open( $command, $descriptors, $pipes );
@@ -266,8 +262,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      * This method takes such a color array and converts it into a string
      * representation usable by the convert binary. For the above examle it
      * would be '#FF0000'.
-     * 
-     * @param array $color 
+     *
      * @return void
      *
      * @throws ezcBaseValueException
@@ -345,7 +340,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
      */
     private function determineTypes()
     {
-        $tagMap = array(
+        $tagMap = [
             'application/pcl' => 'PCL',
             'application/pdf' => 'PDF',
             'application/postscript' => 'PS',
@@ -390,7 +385,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
             'video/mng' => 'MNG',
             'video/mpeg' => 'MPEG',
             'video/mpeg2' => 'M2V',
-        );
+        ];
         $types = array_keys( $tagMap );
         $this->inputTypes = $types;
         $this->outputTypes = $types;
@@ -426,11 +421,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         }
         
         // Prepare to run ImageMagick command
-        $descriptors = array( 
-            array( 'pipe', 'r' ),
-            array( 'pipe', 'w' ),
-            array( 'pipe', 'w' ),
-        );
+        $descriptors = [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']];
 
         // Open ImageMagick process
         $imageProcess = proc_open( $this->binary, $descriptors, $pipes );
@@ -456,7 +447,7 @@ class ezcImageImagemagickBaseHandler extends ezcImageMethodcallHandler
         $return = proc_close( $imageProcess );
 
         // Process potential errors
-        if ( strlen( $errorString ) > 0 || strpos( $outputString, 'ImageMagick' ) === false )
+        if ( strlen( $errorString ) > 0 || !str_contains( $outputString, 'ImageMagick' ) )
         {
             throw new ezcImageHandlerNotAvailableException( 'ezcImageImagemagickHandler', 'ImageMagick not installed or not available in PATH variable.' );
         }

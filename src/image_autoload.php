@@ -25,7 +25,7 @@
  * @package ImageConversion
  */
 
-return array(
+return [
     'ezcImageException'                            => 'ImageConversion/exceptions/exception.php',
     'ezcImageFileNameInvalidException'             => 'ImageConversion/exceptions/file_name_invalid.php',
     'ezcImageFileNotProcessableException'          => 'ImageConversion/exceptions/file_not_processable.php',
@@ -57,5 +57,5 @@ return array(
     'ezcImageImagemagickHandler'                   => 'ImageConversion/handlers/imagemagick.php',
     'ezcImageSaveOptions'                          => 'ImageConversion/options/save_options.php',
     'ezcImageTransformation'                       => 'ImageConversion/transformation.php',
-);
+];
 ?>

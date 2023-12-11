@@ -73,10 +73,9 @@ abstract class ezcImageHandler
      * @throws ezcBasePropertyNotFoundException if the property does not exist.
      * @throws ezcBasePropertyReadOnlyException if the property cannot be modified.
      * @param string $name
-     * @param mixed $value
      * @ignore
      */
-    public function __set( $name, $value )
+    public function __set( $name, mixed $value )
     {
         switch ( $name )
         {
@@ -97,13 +96,10 @@ abstract class ezcImageHandler
      */
     public function __get( $name )
     {
-        switch ( $name )
-        {
-            case 'name':
-                return $this->properties[$name];
-            default:
-                throw new ezcBasePropertyNotFoundException( $name );
-        }
+        return match ($name) {
+            'name' => $this->properties[$name],
+            default => throw new ezcBasePropertyNotFoundException( $name ),
+        };
     }
 
     /**
@@ -115,13 +111,10 @@ abstract class ezcImageHandler
      */
     public function __isset( $name )
     {
-        switch ( $name )
-        {
-            case 'name':
-                return true;
-            default:
-                return false;
-        }
+        return match ($name) {
+            'name' => true,
+            default => false,
+        };
     }
 
     /**
@@ -136,7 +129,7 @@ abstract class ezcImageHandler
      */
     protected function checkFileName( $file )
     {
-        if ( strpos( $file, "'" ) !== false || strpos( $file, "'" ) !== false || strpos( $file, '$' ) !== false )
+        if ( str_contains( $file, "'" ) || str_contains( $file, "'" ) || str_contains( $file, '$' ) )
         {
             throw new ezcImageFileNameInvalidException( $file );
         }
@@ -156,10 +149,7 @@ abstract class ezcImageHandler
      */
     protected function needsTransparencyConversion( $inMime, $outMime )
     {
-        $transparencyMimes = array(
-            'image/gif' => true,
-            'image/png' => true,
-        );
+        $transparencyMimes = ['image/gif' => true, 'image/png' => true];
         return (
                $outMime !== null
             && $inMime !== $outMime

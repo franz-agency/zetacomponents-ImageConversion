@@ -49,7 +49,6 @@ class ezcImageInvalidFilterParameterException extends ezcImageException
         {
             $message .= " Expected parameter to be in range '{$expectedRange}'.";
         }
-        parent::__construct( $message );
     }
 }
 
